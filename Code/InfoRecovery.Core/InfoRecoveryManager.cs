@@ -14,7 +14,7 @@ namespace InfoRecovery.Core
         {
             foreach (var json in JsonElements)
             {
-                TextWriter tw = new StreamWriter(string.Format("{0}\\{1}", json.Path, json.Name));
+                TextWriter tw = new StreamWriter(string.Format("{0}\\{1}.json", json.Path, json.Name));
                 tw.Close();
             }
         }
