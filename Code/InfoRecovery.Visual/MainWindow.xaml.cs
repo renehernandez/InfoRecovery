@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using InfoRecovery.Core;
 
 namespace InfoRecovery.Visual
 {
@@ -22,6 +23,12 @@ namespace InfoRecovery.Visual
         public MainWindow()
         {
             InitializeComponent();
+            InitializeStructure();
+        }
+
+        public void InitializeStructure()
+        {
+            InfoRecoveryManager.BuildJsons();
         }
     }
 }
