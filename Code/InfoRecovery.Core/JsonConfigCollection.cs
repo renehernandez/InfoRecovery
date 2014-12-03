@@ -10,7 +10,7 @@ namespace InfoRecovery.Core
     public class JsonConfigCollection : ConfigurationElementCollection
     {
 
-        internal const string propertyName = "JsonElement";
+        internal const string propertyName = "jsonElement";
 
         public override bool IsReadOnly()
         {

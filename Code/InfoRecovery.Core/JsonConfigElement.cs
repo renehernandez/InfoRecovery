@@ -9,14 +9,14 @@ namespace InfoRecovery.Core
     public class JsonConfigElement : ConfigurationElement
     {
 
-        [ConfigurationProperty("name", IsRequired = true)]
+        [ConfigurationProperty("name", DefaultValue = "", IsKey = true, IsRequired = true)]
         public string Name
         {
             get { return this["name"].ToString(); }
             set { this["name"] = value; }
         }
 
-        [ConfigurationProperty("path", IsRequired = true)]
+        [ConfigurationProperty("path", DefaultValue = "", IsKey = false, IsRequired = true)]
         public string Path {
             get { return this["path"].ToString(); }
             set { this["path"] = value; } 
@@ -25,12 +25,6 @@ namespace InfoRecovery.Core
         public JsonConfigElement()
         {
 
-        }
-
-        public JsonConfigElement(string jsonName, string jsonPath)
-        {
-            Name = jsonName;
-            Path = jsonPath;
         }
 
     }
