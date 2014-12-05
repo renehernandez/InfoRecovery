@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
-using System.Configuration;
 
 namespace InfoRecovery.Core
 {
-    [ConfigurationCollection(typeof(JsonConfigElement))]
-    public class JsonConfigCollection : ConfigurationElementCollection
+    [ConfigurationCollection(typeof(ModuleConfigElement))]
+    public class ModuleConfigCollection : ConfigurationElementCollection
     {
 
-        public const string propertyName = "jsonElement";
+        public const string propertyName = "moduleElement";
 
         public override bool IsReadOnly()
         {
             return false;
         }
-        
-        public JsonConfigElement this[int index]
+
+        public ModuleConfigElement this[int index]
         {
-            get { return BaseGet(index) as JsonConfigElement; }
+            get { return BaseGet(index) as ModuleConfigElement; }
         }
 
         public override ConfigurationElementCollectionType CollectionType
@@ -45,12 +45,12 @@ namespace InfoRecovery.Core
 
         protected override ConfigurationElement CreateNewElement()
         {
-            return new JsonConfigElement();
+            return new ModuleConfigElement();
         }
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((JsonConfigElement)(element)).Name;
+            return ((ModuleConfigElement)(element)).Name;
         }
 
     }
