@@ -45,6 +45,8 @@
     <Compile Include="JsonConfigElement.cs" />
     <Compile Include="IEntryModulePoint.cs" />
     <Compile Include="InfoRecoverySection.cs" />
+    <Compile Include="ModuleConfigCollection.cs" />
+    <Compile Include="ModuleConfigElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

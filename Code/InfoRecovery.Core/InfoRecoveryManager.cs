@@ -29,6 +29,11 @@ namespace InfoRecovery.Core
             get { return InfoConfig.JsonCollection; }
         }
 
+        public static ModuleConfigCollection ModuleCollection
+        {
+            get { return InfoConfig.ModuleCollection; }
+        }
+
         public static IEnumerable<JsonConfigElement> JsonElements
         {
             get
@@ -37,6 +42,18 @@ namespace InfoRecovery.Core
                 {
                     if (json != null)
                         yield return json;
+                }
+            }
+        }
+
+        public static IEnumerable<ModuleConfigElement> ModuleElements
+        {
+            get
+            {
+                foreach (ModuleConfigElement mod in ModuleCollection)
+                {
+                    if (mod != null)
+                        yield return mod;
                 }
             }
         }
