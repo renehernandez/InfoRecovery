@@ -28,7 +28,8 @@ namespace InfoRecovery.Visual
 
         public void InitializeStructure()
         {
-            InfoRecoveryManager.BuildJsons();
+            InfoRecoveryManager.BuildConfigurations();
+            InfoRecoveryManager.CreateJson();
         }
     }
 }
