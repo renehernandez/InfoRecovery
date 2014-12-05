@@ -30,6 +30,11 @@ namespace InfoRecovery.Core
             }
         }
 
+        public void Add(ModuleConfigElement moduleElement)
+        {
+            BaseAdd(moduleElement);
+        }
+
         protected override string ElementName
         {
             get

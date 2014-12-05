@@ -10,13 +10,30 @@ namespace InfoRecovery.Core
     public static class InfoRecoveryManager
     {
 
-        public static void BuildJsons()
+        public static void BuildConfigurations()
         {
-            foreach (var json in JsonElements)
+            if (InfoConfig.JsonElement == null)
             {
-                TextWriter tw = new StreamWriter(string.Format("{0}\\{1}.json", json.Path, json.Name));
-                tw.Close();
+                InfoConfig.JsonElement = new JsonConfigElement() { Name = "Message", Path = "." };
             }
+
+            if (InfoConfig.ModuleCollection == null)
+                InfoConfig.ModuleCollection = new ModuleConfigCollection();
+
+            if (InfoConfig.ModuleCollection.Count == 0)
+            {
+                var collection = InfoConfig.ModuleCollection;
+
+                collection.Add(new ModuleConfigElement() { Name = "Text", Path = "..\\..\\..\\InfoRecovery.Text\\bin\\Debug\\InfoRecovery.Text.exe" });
+                collection.Add(new ModuleConfigElement() { Name = "Index", Path = "..\\..\\..\\InfoRecovery.Index\\bin\\Debug\\InfoRecovery.Index.exe" });
+                collection.Add(new ModuleConfigElement() { Name = "Model", Path = "..\\..\\..\\InfoRecovery.BooleanModel\\bin\\Debug\\InfoRecovery.BooleanModel.exe" });
+            }
+        }
+
+        public static void CreateJson()
+        {
+            TextWriter tw = new StreamWriter(string.Format("{0}\\{1}.json", InfoConfig.JsonElement.Path, InfoConfig.JsonElement.Name));
+            tw.Close();
         }
 
         public static InfoRecoverySection InfoConfig
@@ -24,26 +41,31 @@ namespace InfoRecovery.Core
             get { return (InfoRecoverySection)ConfigurationManager.GetSection("infoSection"); }
         }
 
-        public static JsonConfigCollection JsonCollection
-        {
-            get { return InfoConfig.JsonCollection; }
-        }
+        //public static JsonConfigCollection JsonCollection
+        //{
+        //    get { return InfoConfig.JsonCollection; }
+        //}
 
         public static ModuleConfigCollection ModuleCollection
         {
             get { return InfoConfig.ModuleCollection; }
         }
 
-        public static IEnumerable<JsonConfigElement> JsonElements
+        //public static IEnumerable<JsonConfigElement> JsonElements
+        //{
+        //    get
+        //    {
+        //        foreach (JsonConfigElement json in JsonCollection)
+        //        {
+        //            if (json != null)
+        //                yield return json;
+        //        }
+        //    }
+        //}
+
+        public static JsonConfigElement JsonElement
         {
-            get
-            {
-                foreach (JsonConfigElement json in JsonCollection)
-                {
-                    if (json != null)
-                        yield return json;
-                }
-            }
+            get { return InfoConfig.JsonElement; }
         }
 
         public static IEnumerable<ModuleConfigElement> ModuleElements
