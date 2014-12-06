@@ -47,9 +47,13 @@ namespace InfoRecovery.Core
         public static void BuildConfigurations()
         {
             if (InfoConfig.JsonElement == null)
-            {
                 InfoConfig.JsonElement = new JsonConfigElement() { Name = "Message", Path = "." };
-            }
+            
+            if (InfoConfig.JsonElement.Name == "")
+                InfoConfig.JsonElement.Name = "Message";
+
+            if (InfoConfig.JsonElement.Path == "")
+                InfoConfig.JsonElement.Path = ".";
 
             if (InfoConfig.ModuleCollection == null)
                 InfoConfig.ModuleCollection = new ModuleConfigCollection();
