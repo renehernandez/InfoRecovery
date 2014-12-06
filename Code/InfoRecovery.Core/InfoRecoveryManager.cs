@@ -4,18 +4,56 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using System.IO;
+using System.Reflection;
 
 namespace InfoRecovery.Core
 {
     public static class InfoRecoveryManager
     {
 
+        public static Configuration Configuration { get; private set; }
+
+        public static string ConfigurationPath { get; private set; }
+
+
+        static InfoRecoveryManager()
+        {
+            SetConfiguration();
+        }
+
+        private static void SetConfiguration()
+        {
+            ConfigurationPath = Assembly.GetEntryAssembly().Location;
+            if (!File.Exists(String.Concat(ConfigurationPath, ".config")))
+                CreateAppConfig();
+
+            Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        }
+
+
+        public static void CreateAppConfig()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+            sb.AppendLine("<configuration>");
+            sb.AppendLine("<configSections>");
+            sb.AppendLine(string.Format("<section name={0}infoSection{0} type={0}InfoRecovery.Core.InfoRecoverySection, InfoRecovery.Core{0}/>", '\"'));
+            sb.AppendLine("</configSections>");
+            sb.AppendLine("</configuration>");
+
+            System.IO.File.WriteAllText(String.Concat(ConfigurationPath, ".config"), sb.ToString());
+        }
+
         public static void BuildConfigurations()
         {
             if (InfoConfig.JsonElement == null)
-            {
                 InfoConfig.JsonElement = new JsonConfigElement() { Name = "Message", Path = "." };
-            }
+            
+            if (InfoConfig.JsonElement.Name == "")
+                InfoConfig.JsonElement.Name = "Message";
+
+            if (InfoConfig.JsonElement.Path == "")
+                InfoConfig.JsonElement.Path = ".";
 
             if (InfoConfig.ModuleCollection == null)
                 InfoConfig.ModuleCollection = new ModuleConfigCollection();
@@ -28,6 +66,9 @@ namespace InfoRecovery.Core
                 collection.Add(new ModuleConfigElement() { Name = "Index", Path = "..\\..\\..\\InfoRecovery.Index\\bin\\Debug\\InfoRecovery.Index.exe" });
                 collection.Add(new ModuleConfigElement() { Name = "Model", Path = "..\\..\\..\\InfoRecovery.BooleanModel\\bin\\Debug\\InfoRecovery.BooleanModel.exe" });
             }
+
+            Configuration.Save();
+            ConfigurationManager.RefreshSection("infoSection");
         }
 
         public static void CreateJson()
@@ -38,7 +79,7 @@ namespace InfoRecovery.Core
 
         public static InfoRecoverySection InfoConfig
         {
-            get { return (InfoRecoverySection)ConfigurationManager.GetSection("infoSection"); }
+            get { return (InfoRecoverySection)Configuration.GetSection("infoSection"); }
         }
 
         //public static JsonConfigCollection JsonCollection
