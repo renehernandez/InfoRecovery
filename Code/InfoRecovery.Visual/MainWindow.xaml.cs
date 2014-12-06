@@ -12,6 +12,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InfoRecovery.Core;
+using Microsoft.Win32;
+using InfoRecovery.Visual.Commands;
+using Ookii.Dialogs.Wpf;
 
 namespace InfoRecovery.Visual
 {
@@ -23,6 +26,7 @@ namespace InfoRecovery.Visual
         public MainWindow()
         {
             InitializeComponent();
+            SetBindings();
             InitializeStructure();
         }
 
@@ -31,5 +35,44 @@ namespace InfoRecovery.Visual
             InfoRecoveryManager.BuildConfigurations();
             InfoRecoveryManager.CreateJson();
         }
+
+        public void SetBindings()
+        {
+            var binding = new CommandBinding(ApplicationCommands.Open);
+            binding.Executed += OpenFolderHandler;
+            CommandBindings.Add(binding);
+
+            binding = new CommandBinding(FindCommand.Requery);
+            binding.Executed += RunHandler;
+            CommandBindings.Add(binding);
+
+            binding = new CommandBinding(EditCommand.Requery);
+            binding.Executed += EditHandler;
+            CommandBindings.Add(binding);
+
+        }
+
+        private void OpenFolderHandler(object sender, RoutedEventArgs e)
+        {
+             var dialog = new VistaFolderBrowserDialog();
+            //dialog.Filter = "Diffuse File (*.dfl)|*.dfl|Show All Files (*.*)|*.*";
+            dialog.Description = "Open Folder";
+            if ((bool)dialog.ShowDialog())
+            {
+                var path = dialog.SelectedPath;
+            }
+
+        }
+
+        private void RunHandler(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditHandler(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }
