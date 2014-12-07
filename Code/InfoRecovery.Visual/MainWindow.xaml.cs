@@ -15,6 +15,9 @@ using InfoRecovery.Core;
 using Microsoft.Win32;
 using InfoRecovery.Visual.Commands;
 using Ookii.Dialogs.Wpf;
+using InfoRecovery.Visual.Windows;
+using System.Diagnostics;
+using Xceed.Wpf.Toolkit;
 
 namespace InfoRecovery.Visual
 {
@@ -23,6 +26,7 @@ namespace InfoRecovery.Visual
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -43,7 +47,7 @@ namespace InfoRecovery.Visual
             CommandBindings.Add(binding);
 
             binding = new CommandBinding(FindCommand.Requery);
-            binding.Executed += RunHandler;
+            binding.Executed += FindHandler;
             CommandBindings.Add(binding);
 
             binding = new CommandBinding(EditCommand.Requery);
@@ -60,18 +64,24 @@ namespace InfoRecovery.Visual
             if ((bool)dialog.ShowDialog())
             {
                 var path = dialog.SelectedPath;
+                var mod = InfoRecoveryManager.ModuleElements.First(m => m.Name == "Model");
+                Process.Start(mod.Path);
             }
 
         }
 
-        private void RunHandler(object sender, RoutedEventArgs e)
+        private void FindHandler(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void EditHandler(object sender, RoutedEventArgs e)
         {
+            var window = new Configuration();
+            if ((bool)window.ShowDialog())
+            {
 
+            }
         }
 
     }
