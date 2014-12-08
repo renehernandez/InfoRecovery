@@ -22,10 +22,16 @@ namespace InfoRecovery.VectorialModel
                 
                 if (modelAction.Action == "build")
                 {
+
                     var action = new TextAction();
                     TextResultAction result;
-                    var docs = DocumentReader.Read(modelAction.Path).ToArray();
                     var create = new VectorialCreateAction();
+                    var data = new VectorialDataItem();
+                    var doc = new DocumentItem();
+
+                    var docs = DocumentReader.Read(modelAction.Path).ToArray();
+                    int documentsNumber = docs.Length;
+                    var termPerDoc = new Dictionary<string, Dictionary<string, int>>();
 
                     var info = new ProcessStartInfo(textPath){
                         Arguments = jsonPath,
@@ -33,7 +39,7 @@ namespace InfoRecovery.VectorialModel
                         CreateNoWindow = true
                     };
 
-                    foreach (var tuple in DocumentReader.Read(modelAction.Path))
+                    foreach (var tuple in docs)
                     {
                         action.Action = "process";
                         action.Data = tuple.Item2;
@@ -41,7 +47,40 @@ namespace InfoRecovery.VectorialModel
                         var proc = Process.Start(info);
                         proc.WaitForExit();
                         result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
+
+                        foreach (var term in result.Terms)
+                        {
+                            if (!termPerDoc.ContainsKey(term))
+                                termPerDoc[term] = new Dictionary<string,int>();
+
+                            if(!termPerDoc[term].ContainsKey(tuple.Item1))
+                                termPerDoc[term][tuple.Item1] = 1;
+                            else
+                                termPerDoc[term][tuple.Item1]++;
+                        }
                     }
+
+                    create.Data = new VectorialDataItem[termPerDoc.Count];
+                    int i = 0;
+                    foreach (var keyValue in termPerDoc)
+                    {
+                        data = new VectorialDataItem();
+                        data.Key = keyValue.Key;
+                        data.Value = new TermItem();
+                        data.Value.Idf = Math.Log(documentsNumber * 1.0 / keyValue.Value.Count);
+                        data.Value.Documents = new List<DocumentItem>();
+                        int max = keyValue.Value.Values.Max();
+
+                        foreach (var item in keyValue.Value)
+                        {
+                            doc = new DocumentItem() {Document = item.Key, Tf = 0.5 + 0.5 * item.Value / max};
+                            data.Value.Documents.Add(doc);
+                        }
+                        create.Data[i] = data;
+                        i++;
+                    }
+
+                    JsonHelper.WriteJson(create, jsonPath);
                 }
                 else if (modelAction.Query != null)
                 {
