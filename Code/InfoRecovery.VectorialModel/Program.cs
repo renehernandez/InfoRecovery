@@ -60,8 +60,7 @@ namespace InfoRecovery.VectorialModel
                         }
                     }
 
-                    create.Data = new VectorialDataItem[termPerDoc.Count];
-                    int i = 0;
+                    create.Data = new List<VectorialDataItem>();
                     foreach (var keyValue in termPerDoc)
                     {
                         data = new VectorialDataItem();
@@ -76,8 +75,7 @@ namespace InfoRecovery.VectorialModel
                             doc = new DocumentItem() {Document = item.Key, Tf = 0.5 + 0.5 * item.Value / max};
                             data.Value.Documents.Add(doc);
                         }
-                        create.Data[i] = data;
-                        i++;
+                        create.Data.Add(data);
                     }
 
                     JsonHelper.WriteJson(create, jsonPath);
