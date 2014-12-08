@@ -5,12 +5,12 @@ using System.Text;
 
 namespace InfoRecovery.Core.JsonActions
 {
-    public class VectorialCreateAction
+    public class VectorialCreateAction : IJsonSerializable
     {
 
         public string Action { get; set; }
 
-        public VectorialDataItem[] Data { get; set; }
+        public List<VectorialDataItem> Data { get; set; }
 
     }
 }
