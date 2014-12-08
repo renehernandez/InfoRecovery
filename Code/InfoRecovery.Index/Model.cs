@@ -14,6 +14,7 @@ namespace InfoRecovery.Index
     {
         public int id { get; set; }
         public string Value { get; set; }
+        public int Idf { get; set; }
     }
 
     [TableName("documents")]
@@ -29,10 +30,9 @@ namespace InfoRecovery.Index
     public class TermDocument
     {
         public int id { get; set; }
-
         public int term_id { get; set; }
-
         public int document_id { get; set; }
+        public int tf { get; set; }
 
     }
 }
