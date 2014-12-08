@@ -12,13 +12,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InfoRecovery.Core;
+using InfoRecovery.Core.JsonActions;
 using Microsoft.Win32;
 using InfoRecovery.Visual.Commands;
 using Ookii.Dialogs.Wpf;
 using InfoRecovery.Visual.Windows;
 using System.Diagnostics;
 using Xceed.Wpf.Toolkit;
-using InfoRecovery.Visual.JsonSerializables;
 
 namespace InfoRecovery.Visual
 {
@@ -64,7 +64,7 @@ namespace InfoRecovery.Visual
             dialog.Description = "Open Folder";
             if ((bool)dialog.ShowDialog())
             {
-                var build = new BuildAction() { Data = dialog.SelectedPath };
+                var build = new ModelAction() { Action = "build", Path = dialog.SelectedPath };
                 var config = InfoRecoveryManager.InfoConfig;
                 string path = string.Format("{0}\\{1}.json", config.JsonElement.Path, config.JsonElement.Name);
                 
