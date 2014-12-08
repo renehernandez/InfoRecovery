@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentReader.cs" />
     <Compile Include="IJsonSerializable.cs" />
     <Compile Include="InfoRecoveryManager.cs" />
     <Compile Include="JsonActions\DocumentMatch.cs" />
