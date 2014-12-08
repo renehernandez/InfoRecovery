@@ -54,6 +54,7 @@
     <Compile Include="JsonActions\DocumentItem.cs" />
     <Compile Include="JsonActions\DocumentMatch.cs" />
     <Compile Include="JsonActions\ModelAction.cs" />
+    <Compile Include="JsonActions\TermItem.cs" />
     <Compile Include="JsonActions\TextAction.cs" />
     <Compile Include="JsonActions\ReportAction.cs" />
     <Compile Include="JsonActions\TextResultAction.cs" />
