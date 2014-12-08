@@ -19,6 +19,7 @@ using Ookii.Dialogs.Wpf;
 using InfoRecovery.Visual.Windows;
 using System.Diagnostics;
 using Xceed.Wpf.Toolkit;
+using InfoRecovery.Visual.ViewModels;
 
 namespace InfoRecovery.Visual
 {
@@ -28,10 +29,13 @@ namespace InfoRecovery.Visual
     public partial class MainWindow : Window
     {
 
+
+
         public MainWindow()
         {
             InitializeComponent();
             SetBindings();
+            SetViewModels();
             InitializeStructure();
         }
 
@@ -39,6 +43,14 @@ namespace InfoRecovery.Visual
         {
             InfoRecoveryManager.BuildConfigurations();
             InfoRecoveryManager.CreateJson();
+        }
+
+        public void SetViewModels()
+        {
+            //config = new ConfigurationViewModel(){
+            //    ModelPath = InfoRecoveryManager.ModuleElements.First(mod => mod.Name == "Model").Path,
+            //    IndexPath = InfoRecoveryManager.ModuleElements.First(mod => mod.Name == "Index").Path,
+            //};
         }
 
         public void SetBindings()
@@ -79,7 +91,8 @@ namespace InfoRecovery.Visual
                 args.Append(string.Format(" {0}", InfoRecoveryManager.ModuleElements.First(m => m.Name == "Index").Path));
                 info.Arguments = args.ToString();
 
-                Process.Start(info);
+                var process = Process.Start(info);
+                process.WaitForExit();
             }
 
         }
@@ -91,11 +104,7 @@ namespace InfoRecovery.Visual
 
         private void EditHandler(object sender, RoutedEventArgs e)
         {
-            var window = new Configuration();
-            if ((bool)window.ShowDialog())
-            {
-
-            }
+            new Configuration().ShowDialog();
         }
 
     }

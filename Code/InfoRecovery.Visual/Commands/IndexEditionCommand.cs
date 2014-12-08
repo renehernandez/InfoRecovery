@@ -6,9 +6,9 @@ using System.Windows.Input;
 
 namespace InfoRecovery.Visual.Commands
 {
-    public class FindCommand
+    public class IndexEditionCommand
     {
-
+        
         private static RoutedUICommand requery;
 
         public static RoutedUICommand Requery
@@ -16,7 +16,7 @@ namespace InfoRecovery.Visual.Commands
             get { return requery; }
         }
 
-        static FindCommand()
+        static IndexEditionCommand()
         {
             //var inputs = new InputGestureCollection
             //{
@@ -24,7 +24,7 @@ namespace InfoRecovery.Visual.Commands
             //};
 
             requery = new RoutedUICommand("Requery", "Requery",
-                typeof(FindCommand), null);
+                typeof(IndexEditionCommand), null);
         }
     }
 }

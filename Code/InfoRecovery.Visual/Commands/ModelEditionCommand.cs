@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace InfoRecovery.Visual.Commands
 {
-    public class FindCommand
+    public class ModelEditionCommand
     {
 
         private static RoutedUICommand requery;
@@ -16,15 +16,16 @@ namespace InfoRecovery.Visual.Commands
             get { return requery; }
         }
 
-        static FindCommand()
+        static ModelEditionCommand()
         {
-            //var inputs = new InputGestureCollection
-            //{
-            //    new KeyGesture(Key.F5, ModifierKeys.Control, "Ctrl + F5")
-            //};
+            var inputs = new InputGestureCollection
+            {
+                new KeyGesture(Key.F5, ModifierKeys.Control, "Ctrl + F5")
+            };
 
             requery = new RoutedUICommand("Requery", "Requery",
-                typeof(FindCommand), null);
+                typeof(ModelEditionCommand), null);
         }
+
     }
 }
