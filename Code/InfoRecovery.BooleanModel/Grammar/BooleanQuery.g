@@ -9,8 +9,8 @@ options {
 }
 	
 // TOKENS
-WS  :   ( ' ' | '\t' | '\r' | '\n' ) {$channel=Hidden;};
-TERM : ~('&' | '|' | '!' | '(' | ')')+;
+WS :   ( ' ' | '\t' | '\r' | '\n' ) {$channel=Hidden;};
+TERM : ~('&' | '|' | '!' | '(' | ')' | ' ' | '\t' | '\r' | '\n')+;
 AND : '&';
 OR : '|';
 NOT : '!';
@@ -32,7 +32,7 @@ and	:	(x=term -> $x)
 	)*;
 
 term	: (x=TERM -> $x)
-	| (NOT y=TERM -> ^(NOT $y) )
+	| (NOT y=TERM -> ^(NOT $y))
 	| (LPAR or RPAR -> or);
 
 
