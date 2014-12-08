@@ -91,8 +91,12 @@ namespace InfoRecovery.Visual
                 args.Append(string.Format(" {0}", InfoRecoveryManager.ModuleElements.First(m => m.Name == "Index").Path));
                 info.Arguments = args.ToString();
 
+                var timer = new Stopwatch();
+                timer.Start();
                 var process = Process.Start(info);
                 process.WaitForExit();
+                timer.Stop();
+                Xceed.Wpf.Toolkit.MessageBox.Show(string.Format("Directory processed correctly.\nEstimated time: {0} secs", timer.ElapsedMilliseconds / 1000), "Information");
             }
 
         }
