@@ -41,12 +41,13 @@ namespace InfoRecovery.VectorialModel
 
                     foreach (var tuple in docs)
                     {
-                        action.Action = "process";
-                        action.Data = tuple.Item2;
-                        JsonHelper.WriteJson(action, jsonPath);
-                        var proc = Process.Start(info);
-                        proc.WaitForExit();
-                        result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
+                        //action.Action = "process";
+                        //action.Data = tuple.Item2;
+                        //JsonHelper.WriteJson(action, jsonPath);
+                        //var proc = Process.Start(info);
+                        //proc.WaitForExit();
+                        //result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
+                        result = new TextResultAction() { Terms = tuple.Item2.Split() };
 
                         foreach (var term in result.Terms)
                         {
