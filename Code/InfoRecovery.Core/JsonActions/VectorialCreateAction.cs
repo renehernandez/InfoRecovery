@@ -8,7 +8,7 @@ namespace InfoRecovery.Core.JsonActions
     public class VectorialCreateAction
     {
 
-        public string Key { get; set; }
+        public string Action { get; set; }
 
         public VectorialDataItem[] Data { get; set; }
 
