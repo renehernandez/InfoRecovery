@@ -13,10 +13,10 @@ namespace TestCore
         {
             InfoRecoveryManager.BuildConfigurations();
 
-            Test t = new Test() { Action = "Test", Age = 1 };
-            JsonHelper.WriteJson(t);
-            Test t1 = JsonHelper.ReadJson<Test>();
-            Console.WriteLine(t1);
+            //Test t = new Test() { Action = "Test", Age = 1 };
+            //JsonHelper.WriteJson(t);
+            //Test t1 = JsonHelper.ReadJson<Test>();
+            //Console.WriteLine(t1);
         }
 
     }
