@@ -11,10 +11,9 @@ namespace InfoRecovery.Core
     public static class JsonHelper
     {
 
-        public static void WriteJson<T>(T obj) where T : IJsonSerializable
+        public static void WriteJson<T>(T obj, string path) where T : IJsonSerializable
         {
-            var config = InfoRecoveryManager.InfoConfig;
-            using(var sw = new StreamWriter(string.Format("{0}\\{1}.json", config.JsonElement.Path, config.JsonElement.Name)))
+            using(var sw = new StreamWriter(path))
             using (var jw = new JsonTextWriter(sw))
             {
                 jw.Formatting = Formatting.Indented;
@@ -24,11 +23,10 @@ namespace InfoRecovery.Core
             }
         }
 
-        public static T ReadJson<T>() where T : IJsonSerializable
+        public static T ReadJson<T>(string path) where T : IJsonSerializable
         {
-            var config = InfoRecoveryManager.InfoConfig;
             T result;
-            using(var sr = new StreamReader(string.Format("{0}\\{1}.json", config.JsonElement.Path, config.JsonElement.Name)))
+            using(var sr = new StreamReader(path))
             using(var jr = new JsonTextReader(sr))
             {
                 var serializer = new JsonSerializer();
