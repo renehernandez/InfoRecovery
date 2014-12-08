@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{992D6C0D-4C49-48DE-B6B9-A23E044C6A6F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{35D5388C-EA51-42B0-89B0-17D49F6F20F2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InfoRecovery.Core</RootNamespace>
-    <AssemblyName>InfoRecovery.Core</AssemblyName>
+    <RootNamespace>InfoRecovery.VectorialModel</RootNamespace>
+    <AssemblyName>InfoRecovery.VectorialModel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,14 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="itextsharp">
-      <HintPath>packages\iTextSharp.5.2.0\lib\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="InfoRecovery.Core">
+      <HintPath>..\InfoRecovery.Core\bin\Debug\InfoRecovery.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,32 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentReader.cs" />
-    <Compile Include="IJsonSerializable.cs" />
-    <Compile Include="InfoRecoveryManager.cs" />
-    <Compile Include="JsonActions\BooleanCreateAction.cs" />
-    <Compile Include="JsonActions\BooleanDataItem.cs" />
-    <Compile Include="JsonActions\DocumentItem.cs" />
-    <Compile Include="JsonActions\DocumentMatch.cs" />
-    <Compile Include="JsonActions\ModelAction.cs" />
-    <Compile Include="JsonActions\TermItem.cs" />
-    <Compile Include="JsonActions\TextAction.cs" />
-    <Compile Include="JsonActions\ReportAction.cs" />
-    <Compile Include="JsonActions\TextResultAction.cs" />
-    <Compile Include="JsonActions\VectorialCreateAction.cs" />
-    <Compile Include="JsonActions\VectorialDataItem.cs" />
-    <Compile Include="JsonConfigCollection.cs" />
-    <Compile Include="JsonConfigElement.cs" />
-    <Compile Include="IEntryModulePoint.cs" />
-    <Compile Include="InfoRecoverySection.cs" />
-    <Compile Include="JsonHelper.cs" />
-    <Compile Include="LowerCaseContractResolver.cs" />
-    <Compile Include="ModuleConfigCollection.cs" />
-    <Compile Include="ModuleConfigElement.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
