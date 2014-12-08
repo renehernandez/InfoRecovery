@@ -65,14 +65,21 @@ namespace InfoRecovery.Visual
             if ((bool)dialog.ShowDialog())
             {
                 var build = new BuildAction() { Data = dialog.SelectedPath };
-
-                JsonHelper.WriteJson(build);
+                var config = InfoRecoveryManager.InfoConfig;
+                string path = string.Format("{0}\\{1}.json", config.JsonElement.Path, config.JsonElement.Name);
+                
+                JsonHelper.WriteJson(build, path);
                 
                 var mod = InfoRecoveryManager.ModuleElements.First(m => m.Name == "Model");
-                var info = new ProcessStartInfo();
-                
+                var info = new ProcessStartInfo(mod.Path);
+                info.UseShellExecute = false;
+                info.CreateNoWindow = true;
+                var args = new StringBuilder(path);
+                args.Append(string.Format(" {0}", InfoRecoveryManager.ModuleElements.First(m => m.Name == "Text").Path));
+                args.Append(string.Format(" {0}", InfoRecoveryManager.ModuleElements.First(m => m.Name == "Index").Path));
+                info.Arguments = args.ToString();
 
-                Process.Start(mod.Path);
+                Process.Start(info);
             }
 
         }
