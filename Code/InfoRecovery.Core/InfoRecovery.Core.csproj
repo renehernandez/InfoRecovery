@@ -43,8 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentReader.cs" />
     <Compile Include="IJsonSerializable.cs" />
     <Compile Include="InfoRecoveryManager.cs" />
+    <Compile Include="JsonActions\DocumentMatch.cs" />
+    <Compile Include="JsonActions\ModelAction.cs" />
+    <Compile Include="JsonActions\TextAction.cs" />
+    <Compile Include="JsonActions\ReportAction.cs" />
+    <Compile Include="JsonActions\TextResultAction.cs" />
     <Compile Include="JsonConfigCollection.cs" />
     <Compile Include="JsonConfigElement.cs" />
     <Compile Include="IEntryModulePoint.cs" />
