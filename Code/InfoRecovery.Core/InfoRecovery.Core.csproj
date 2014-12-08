@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>packages\iTextSharp.5.2.0\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -46,6 +49,8 @@
     <Compile Include="DocumentReader.cs" />
     <Compile Include="IJsonSerializable.cs" />
     <Compile Include="InfoRecoveryManager.cs" />
+    <Compile Include="JsonActions\BooleanCreateAction.cs" />
+    <Compile Include="JsonActions\BooleanDataItem.cs" />
     <Compile Include="JsonActions\DocumentMatch.cs" />
     <Compile Include="JsonActions\ModelAction.cs" />
     <Compile Include="JsonActions\TextAction.cs" />
