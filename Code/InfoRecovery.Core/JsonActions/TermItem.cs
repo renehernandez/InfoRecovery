@@ -5,10 +5,12 @@ using System.Text;
 
 namespace InfoRecovery.Core.JsonActions
 {
-    public class VectorialDataItem
+    public class TermItem
     {
-        public string Key { get; set; }
 
-        public TermItem Value { get; set; }
+        public double Idf { get; set; }
+
+        public List<DocumentItem> Documents { get; set; }
+
     }
 }
