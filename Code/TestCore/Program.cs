@@ -13,6 +13,10 @@ namespace TestCore
         {
             InfoRecoveryManager.BuildConfigurations();
 
+            foreach(var text in DocumentReader.Read("C:\\Users\\Aegis\\Desktop\\Test")){
+                Console.WriteLine(text);
+            }
+
             //Test t = new Test() { Action = "Test", Age = 1 };
             //JsonHelper.WriteJson(t);
             //Test t1 = JsonHelper.ReadJson<Test>();
