@@ -18,6 +18,7 @@ using Ookii.Dialogs.Wpf;
 using InfoRecovery.Visual.Windows;
 using System.Diagnostics;
 using Xceed.Wpf.Toolkit;
+using InfoRecovery.Visual.JsonSerializables;
 
 namespace InfoRecovery.Visual
 {
@@ -59,12 +60,18 @@ namespace InfoRecovery.Visual
         private void OpenFolderHandler(object sender, RoutedEventArgs e)
         {
              var dialog = new VistaFolderBrowserDialog();
-            //dialog.Filter = "Diffuse File (*.dfl)|*.dfl|Show All Files (*.*)|*.*";
+
             dialog.Description = "Open Folder";
             if ((bool)dialog.ShowDialog())
             {
-                var path = dialog.SelectedPath;
+                var build = new BuildAction() { Data = dialog.SelectedPath };
+
+                JsonHelper.WriteJson(build);
+                
                 var mod = InfoRecoveryManager.ModuleElements.First(m => m.Name == "Model");
+                var info = new ProcessStartInfo();
+                
+
                 Process.Start(mod.Path);
             }
 
