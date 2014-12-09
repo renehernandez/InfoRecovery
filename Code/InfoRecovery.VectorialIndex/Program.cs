@@ -14,14 +14,36 @@ namespace InfoRecovery.VectorialIndex
         static void Main(string[] args)
         {
 
-            //string jsonPath = args[0];
-            //var action = JsonHelper.ReadJson<VectorialCreateAction>(jsonPath);
-
-            var db = new PetaPoco.Database("SqliteConn");
-            db.Insert(new Term() { Idf = 10.5, Value ="precious" });
-            foreach (var item in db.Query<Term>("Select * From terms"))
+            if (args.Length > 0)
             {
-                Console.WriteLine("Value = {0}; Idf = {1}", item.Value, item.Idf);
+                string jsonPath = args[0];
+                var action = JsonHelper.ReadJson<VectorialCreateAction>(jsonPath);
+
+                if (action.Action == "create")
+                {
+
+                    var db = new PetaPoco.Database("SqliteConn");
+                    //db.Delete<Term>("");
+                    Term t;
+                    Document doc;
+
+                    foreach (var item in action.Data)
+                    {
+                        t = new Term() { Value = item.Key, Idf = item.Value.Idf };
+                        db.Insert(t);
+                        foreach (var elem in item.Value.Documents)
+                        {
+                            doc = new Document() { Name = elem.Document };
+
+                            if (!db.Exists<Document>("WHERE Name = @0", doc.Name))
+                                db.Insert(doc);
+                            else
+                                doc = db.Single<Document>("WHERE Name = @0", doc.Name);
+
+                            db.Insert("term_documents", "Id", new { TermId = t.Id, DocumentId = doc.Id, Tf = elem.Tf });
+                        }
+                    }
+                }
             }
         }
     }
