@@ -6,12 +6,12 @@ using PetaPoco;
 
 namespace InfoRecovery.Index.POCOs
 {
-    [TableName("terms")]
+    [TableName("json_storage")]
     [PrimaryKey("id")]
-    public class Term
+    public class JsonStorage
     {
         public int id { get; set; }
+        public string Key { get; set; }
         public string Value { get; set; }
-        public double Idf { get; set; }
     }
 }
