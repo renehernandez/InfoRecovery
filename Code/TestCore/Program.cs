@@ -11,26 +11,28 @@ namespace TestCore
     {
         static void Main(string[] args)
         {
-            InfoRecoveryManager.BuildConfigurations();
+            //InfoRecoveryManager.BuildConfigurations();
 
-            foreach(var text in DocumentReader.Read("C:\\Users\\Aegis\\Desktop\\Test")){
-                Console.WriteLine(text);
-            }
+            //foreach(var text in DocumentReader.Read("C:\\Users\\Aegis\\Desktop\\Test")){
+            //    Console.WriteLine(text);
+            //}
 
-            //Test t = new Test() { Action = "Test", Age = 1 };
-            //JsonHelper.WriteJson(t);
-            //Test t1 = JsonHelper.ReadJson<Test>();
-            //Console.WriteLine(t1);
+            Test t = new Test() { Action = "Test", Age = 1 };
+            JsonHelper.WriteJson(t, "D:\\json.txt");
+            Test t1 = JsonHelper.ReadJson<Test>("D:\\json.txt");
+            Console.WriteLine(t1);
         }
 
     }
 
-    class Test : IJsonSerializable
+    class Test
     {
         public string Action { get; set; }
 
         //[JsonIgnoreAttribute]
         public int Age { get; set; }
+
+        public string Name { get; set; }
 
         public override string ToString()
         {

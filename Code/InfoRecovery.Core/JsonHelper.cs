@@ -11,25 +11,28 @@ namespace InfoRecovery.Core
     public static class JsonHelper
     {
 
-        public static void WriteJson<T>(T obj, string path) where T : IJsonSerializable
+        public static void WriteJson<T>(T obj, string path)
         {
+            
             using(var sw = new StreamWriter(path))
             using (var jw = new JsonTextWriter(sw))
             {
-                jw.Formatting = Formatting.Indented;
+                //jw.Formatting = Formatting.Indented;
                 var serializer = new JsonSerializer();
                 serializer.ContractResolver = new LowerCaseContractResolver();
+                serializer.NullValueHandling = NullValueHandling.Ignore;
                 serializer.Serialize(jw, obj);
             }
         }
 
-        public static T ReadJson<T>(string path) where T : IJsonSerializable
+        public static T ReadJson<T>(string path)
         {
             T result;
             using(var sr = new StreamReader(path))
             using(var jr = new JsonTextReader(sr))
             {
                 var serializer = new JsonSerializer();
+                serializer.NullValueHandling = NullValueHandling.Ignore;
                 result = serializer.Deserialize<T>(jr);
             }
 
