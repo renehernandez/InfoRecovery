@@ -5,11 +5,12 @@ using System.Text;
 
 namespace InfoRecovery.Core.JsonActions
 {
-    public class TextResultAction
+    public class IndexResultAction
     {
-        public string  Action { get; set; }
 
-        public string[] Terms { get; set; }
+        public string Success { get; set; }
+
+        public ModelData Value { get; set; }
 
     }
 }
