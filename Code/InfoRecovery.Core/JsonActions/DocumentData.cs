@@ -5,7 +5,7 @@ using System.Text;
 
 namespace InfoRecovery.Core.JsonActions
 {
-    public class DocumentItem
+    public class DocumentData
     {
 
         public double Tf { get; set; }
