@@ -11,61 +11,50 @@ namespace InfoRecovery.Index
 {
     class DataManager
     {
-        public TermRepository TermRepository {get; private set;}
-        public DocumentRepository DocumentRepository { get; private set; }
-        public Database DB { get; private set; }
-        public SQLiteConnection DBConnection { get; private set; }
-        public string DataSource { get; private set; }
+        private JsonStorageRepository _JSRepository;
+        private Database _DB;
+        private SQLiteConnection _DBConnection;
+        private string _DataSource;
         public DataManager(string dataSource = @"database.sq3")
-        {
-            DataSource = dataSource;
-            bool isNew = !System.IO.File.Exists(DataSource);
-            DBConnection = new SQLiteConnection("Data Source=" + DataSource);
-            DBConnection.Open();
-            DB = new Database(DBConnection);
+        {   
+            _DataSource = dataSource;
+            bool isNew = !System.IO.File.Exists(_DataSource);
+            _DBConnection = new SQLiteConnection("Data Source=" + _DataSource);
+            _DBConnection.Open();
+            _DB = new Database(_DBConnection);
             if (isNew)
                 CreateDB();
 
-            TermRepository = new TermRepository(DB);
-            DocumentRepository = new DocumentRepository(DB);
-            
+            _JSRepository = new JsonStorageRepository(_DB);
 
         }
 
         private void CreateDB()
         {
-            DB.Execute("CREATE TABLE terms (id INTEGER PRIMARY KEY AUTOINCREMENT, value STRING, idf DOUBLE)");
-            DB.Execute("CREATE TABLE documents (id INTEGER PRIMARY KEY AUTOINCREMENT, value STRING)");
-            DB.Execute("CREATE TABLE term_document (id INTEGER PRIMARY KEY AUTOINCREMENT, term_id INTEGER, document_id INTEGER, tf DOUBLE)");
+            _DB.Execute("CREATE TABLE json_storage (id INTEGER PRIMARY KEY AUTOINCREMENT, key STRING, value TEXT)");
         }
 
-        public void Add(string term, string document)
+        public void Add(string key, string value)
         {
-
-            Term t = TermRepository.FirstOrCreate(new Term { Value = term });
-            Document d = DocumentRepository.FirstOrCreate(new Document { Value = document });
-            TermRepository.AddDocument(t, d);
-            
+            _JSRepository.FirstOrCreate(new JsonStorage { Key = key, Value = value });   
         }
 
-        public IEnumerable<string> Get(string term)
+        public string Get(string key)
         {
-            var documents = TermRepository.Documents(new Term { Value = term });
-            return documents.Select(d => d.Value);
+            var js = _JSRepository.Where("key", "=", key);
+            if (js.Count() == 0)
+                throw new KeyNotFoundException(string.Format("Key {0} doesn't exist", key));
+            return js.First().Value;
         }
 
-        public void Delete(string term)
+        public void Delete(string key)
         {
-            TermRepository.Delete(new Term { Value = term });
+            _JSRepository.Delete(new JsonStorage { Key = key });
         }
 
-        public void Update(string term, string document)
-        {   
-            var t = new Term { Value = term };
-            var d = new Document { Value = term };
-            //DB.Update()
-            //DB.Insert(t);
-            //DB.Insert()
+        public void Update(string key, string value)
+        {
+            _JSRepository.Update(new JsonStorage { Key = key, Value = value });
         }
 
     }
