@@ -19,9 +19,9 @@ namespace InfoRecovery.VectorialModel
                 string indexPath = args[2];
 
                 var modelAction = JsonHelper.ReadJson<ModelAction>(jsonPath);
-                TextAction action;
+                TextAction action = new TextAction();
                 TextResultAction result;
-                ModelSendAction create;
+                IndexAction create;
 
                 var info = new ProcessStartInfo(textPath)
                 {
@@ -34,7 +34,7 @@ namespace InfoRecovery.VectorialModel
                 {              
                     ModelData data;
                     DocumentData doc;
-                    create = new ModelSendAction() { Action = "create" };
+                    create = new IndexAction() { Action = "create" };
                     
                     var docs = DocumentReader.Read(modelAction.Path).ToArray();
                     int documentsNumber = docs.Length;
@@ -43,12 +43,14 @@ namespace InfoRecovery.VectorialModel
 
                     foreach (var tuple in docs)
                     {
-                        action.Action = "process";
-                        action.Data = tuple.Item2;
-                        JsonHelper.WriteJson(action, jsonPath);
-                        var proc = Process.Start(info);
-                        proc.WaitForExit();
-                        result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
+                        //action.Action = "process";
+                        //action.Data = tuple.Item2;
+                        //JsonHelper.WriteJson(action, jsonPath);
+
+                        //var proc = Process.Start(info);
+                        //proc.WaitForExit();
+                        
+                        //result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
                         result = new TextResultAction() { Terms = tuple.Item2.Split() };
 
                         foreach (var term in result.Terms)
@@ -109,12 +111,14 @@ namespace InfoRecovery.VectorialModel
                 }
                 else if (modelAction.Query != null)
                 {
-                    action.Action = "process";
-                    action.Data = modelAction.Query;
-                    JsonHelper.WriteJson(action, jsonPath);
-                    var proc = Process.Start(info);
-                    proc.WaitForExit();
-                    result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
+                    //action.Action = "process";
+                    //action.Data = modelAction.Query;
+                    //JsonHelper.WriteJson(action, jsonPath);
+                    //var proc = Process.Start(info);
+                    //proc.WaitForExit();
+                    //result = JsonHelper.ReadJson<TextResultAction>(jsonPath);
+                    result = new TextResultAction() { Terms = modelAction.Query.Split() };
+
                 }
             }
 
