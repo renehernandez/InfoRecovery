@@ -5,12 +5,12 @@ using System.Text;
 
 namespace InfoRecovery.Core.JsonActions
 {
-    public class DocumentItem
+    public class ModelCreateAction : IJsonSerializable
     {
 
-        public double Tf { get; set; }
+        public string Action { get; set; }
 
-        public string Document { get; set; }
+        public List<ModelData> Data { get; set; }
 
     }
 }
