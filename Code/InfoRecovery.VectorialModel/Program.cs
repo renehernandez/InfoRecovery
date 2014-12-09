@@ -80,6 +80,14 @@ namespace InfoRecovery.VectorialModel
                     }
 
                     JsonHelper.WriteJson(create, jsonPath);
+                    info = new ProcessStartInfo(indexPath)
+                    {
+                        Arguments = jsonPath,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    };
+                    var process = Process.Start(info);
+                    process.WaitForExit();
                 }
                 else if (modelAction.Query != null)
                 {
