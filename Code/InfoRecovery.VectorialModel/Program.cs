@@ -25,7 +25,7 @@ namespace InfoRecovery.VectorialModel
 
                     var action = new TextAction();
                     TextResultAction result;
-                    var create = new VectorialCreateAction();
+                    var create = new VectorialCreateAction() { Action = "create" };
                     var data = new VectorialDataItem();
                     var doc = new DocumentItem();
 
