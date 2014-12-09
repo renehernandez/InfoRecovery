@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PetaPoco;
+using InfoRecovery.Index.POCOs;
 
-namespace InfoRecovery.Index
+namespace InfoRecovery.Index.Repositories
 {
     class TermRepository: IRepository<Term>
     {
@@ -74,6 +75,20 @@ namespace InfoRecovery.Index
                           INNER JOIN term_document AS td ON d.id = td.document_id 
                       WHERE td.term_id = {0}", t.id));
             return documents;
+        }
+
+
+        public void Delete(Term instance)
+        {
+            var t = WhereEquals(new Dictionary<string, string> { { "value", instance.Value } }).First();
+            _DB.Execute(string.Format("DELETE FROM 'terms'  WHERE id = {0}", t.id));
+            _DB.Execute(string.Format("DELETE FROM 'term_document'  WHERE term_id = {0}", t.id));
+
+        }
+
+        public Term Update(Term instance, Term newInstance)
+        {
+            throw new NotImplementedException();
         }
     }
 }

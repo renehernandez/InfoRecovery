@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PetaPoco;
+using InfoRecovery.Index.POCOs;
 
-namespace InfoRecovery.Index
+namespace InfoRecovery.Index.Repositories
 {
     class DocumentRepository : IRepository<Document>
     {
@@ -44,6 +45,21 @@ namespace InfoRecovery.Index
                 Select(x => string.Format("{0} = '{1}'", x.Key, x.Value)).
                 Aggregate((x, y) => string.Format("{0} AND {1}"));
             return _DB.Query<Document>(string.Format("SELECT * FROM 'documents' WHERE {0} LIMIT 1", eq));
+        }
+
+
+        public void Delete(Document instance)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Document Update(Document instance, Document newInstance)
+        {
+            var d = WhereEquals(new Dictionary<string, string> { { "value", instance.Value } });
+            instance.Value = newInstance.Value;
+            _DB.Update(instance);
+            return instance;
         }
     }
 }

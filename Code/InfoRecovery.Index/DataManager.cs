@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Data.SQLite;
 using PetaPoco;
+using InfoRecovery.Index.Repositories;
+using InfoRecovery.Index.POCOs;
 
 namespace InfoRecovery.Index
 {
-    class Data
+    class DataManager
     {
         public TermRepository TermRepository {get; private set;}
         public DocumentRepository DocumentRepository { get; private set; }
         public Database DB { get; private set; }
         public SQLiteConnection DBConnection { get; private set; }
         public string DataSource { get; private set; }
-        public Data(string dataSource = @"database.sq3")
+        public DataManager(string dataSource = @"database.sq3")
         {
             DataSource = dataSource;
             bool isNew = !System.IO.File.Exists(DataSource);
@@ -32,9 +34,9 @@ namespace InfoRecovery.Index
 
         private void CreateDB()
         {
-            DB.Execute("CREATE TABLE terms (id INTEGER PRIMARY KEY AUTOINCREMENT, value STRING, idf INTEGER)");
+            DB.Execute("CREATE TABLE terms (id INTEGER PRIMARY KEY AUTOINCREMENT, value STRING, idf DOUBLE)");
             DB.Execute("CREATE TABLE documents (id INTEGER PRIMARY KEY AUTOINCREMENT, value STRING)");
-            DB.Execute("CREATE TABLE term_document (id INTEGER PRIMARY KEY AUTOINCREMENT, term_id INTEGER, document_id INTEGER, tf INTEGER)");
+            DB.Execute("CREATE TABLE term_document (id INTEGER PRIMARY KEY AUTOINCREMENT, term_id INTEGER, document_id INTEGER, tf DOUBLE)");
         }
 
         public void Add(string term, string document)
@@ -50,6 +52,11 @@ namespace InfoRecovery.Index
         {
             var documents = TermRepository.Documents(new Term { Value = term });
             return documents.Select(d => d.Value);
+        }
+
+        public void Delete(string term)
+        {
+            TermRepository.Delete(new Term { Value = term });
         }
 
         public void Update(string term, string document)
