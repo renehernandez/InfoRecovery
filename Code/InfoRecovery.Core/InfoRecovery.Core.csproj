@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>packages\iTextSharp.5.2.0\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -40,15 +46,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentReader.cs" />
+    <Compile Include="IJsonSerializable.cs" />
     <Compile Include="InfoRecoveryManager.cs" />
+    <Compile Include="JsonActions\BooleanCreateAction.cs" />
+    <Compile Include="JsonActions\BooleanDataItem.cs" />
+    <Compile Include="JsonActions\DocumentMatch.cs" />
+    <Compile Include="JsonActions\ModelAction.cs" />
+    <Compile Include="JsonActions\TextAction.cs" />
+    <Compile Include="JsonActions\ReportAction.cs" />
+    <Compile Include="JsonActions\TextResultAction.cs" />
     <Compile Include="JsonConfigCollection.cs" />
     <Compile Include="JsonConfigElement.cs" />
     <Compile Include="IEntryModulePoint.cs" />
     <Compile Include="InfoRecoverySection.cs" />
+    <Compile Include="JsonHelper.cs" />
+    <Compile Include="LowerCaseContractResolver.cs" />
+    <Compile Include="ModuleConfigCollection.cs" />
+    <Compile Include="ModuleConfigElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

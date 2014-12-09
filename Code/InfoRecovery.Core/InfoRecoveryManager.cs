@@ -4,39 +4,119 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using System.IO;
+using System.Reflection;
 
 namespace InfoRecovery.Core
 {
     public static class InfoRecoveryManager
     {
 
-        public static void BuildJsons()
+        public static Configuration Configuration { get; private set; }
+
+        public static string ConfigurationPath { get; private set; }
+
+
+        static InfoRecoveryManager()
         {
-            foreach (var json in JsonElements)
+            SetConfiguration();
+        }
+
+        private static void SetConfiguration()
+        {
+            ConfigurationPath = Assembly.GetEntryAssembly().Location;
+            if (!File.Exists(String.Concat(ConfigurationPath, ".config")))
+                CreateAppConfig();
+
+            Configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        }
+
+
+        public static void CreateAppConfig()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+            sb.AppendLine("<configuration>");
+            sb.AppendLine("<configSections>");
+            sb.AppendLine(string.Format("<section name={0}infoSection{0} type={0}InfoRecovery.Core.InfoRecoverySection, InfoRecovery.Core{0}/>", '\"'));
+            sb.AppendLine("</configSections>");
+            sb.AppendLine("</configuration>");
+
+            System.IO.File.WriteAllText(String.Concat(ConfigurationPath, ".config"), sb.ToString());
+        }
+
+        public static void BuildConfigurations()
+        {
+            if (InfoConfig.JsonElement == null)
+                InfoConfig.JsonElement = new JsonConfigElement() { Name = "Message", Path = "." };
+            
+            if (InfoConfig.JsonElement.Name == "")
+                InfoConfig.JsonElement.Name = "Message";
+
+            if (InfoConfig.JsonElement.Path == "")
+                InfoConfig.JsonElement.Path = ".";
+
+            if (InfoConfig.ModuleCollection == null)
+                InfoConfig.ModuleCollection = new ModuleConfigCollection();
+
+            if (InfoConfig.ModuleCollection.Count == 0)
             {
-                TextWriter tw = new StreamWriter(string.Format("{0}\\{1}.json", json.Path, json.Name));
-                tw.Close();
+                var collection = InfoConfig.ModuleCollection;
+
+                collection.Add(new ModuleConfigElement() { Name = "Text", Path = "..\\..\\..\\InfoRecovery.Text\\bin\\Debug\\InfoRecovery.Text.exe" });
+                collection.Add(new ModuleConfigElement() { Name = "Index", Path = "..\\..\\..\\InfoRecovery.Index\\bin\\Debug\\InfoRecovery.Index.exe" });
+                collection.Add(new ModuleConfigElement() { Name = "Model", Path = "..\\..\\..\\InfoRecovery.BooleanModel\\bin\\Debug\\InfoRecovery.BooleanModel.exe" });
             }
+
+            Configuration.Save();
+            ConfigurationManager.RefreshSection("infoSection");
+        }
+
+        public static void CreateJson()
+        {
+            TextWriter tw = new StreamWriter(string.Format("{0}\\{1}.json", InfoConfig.JsonElement.Path, InfoConfig.JsonElement.Name));
+            tw.Close();
         }
 
         public static InfoRecoverySection InfoConfig
         {
-            get { return (InfoRecoverySection)ConfigurationManager.GetSection("infoSection"); }
+            get { return (InfoRecoverySection)Configuration.GetSection("infoSection"); }
         }
 
-        public static JsonConfigCollection JsonCollection
+        //public static JsonConfigCollection JsonCollection
+        //{
+        //    get { return InfoConfig.JsonCollection; }
+        //}
+
+        public static ModuleConfigCollection ModuleCollection
         {
-            get { return InfoConfig.JsonCollection; }
+            get { return InfoConfig.ModuleCollection; }
         }
 
-        public static IEnumerable<JsonConfigElement> JsonElements
+        //public static IEnumerable<JsonConfigElement> JsonElements
+        //{
+        //    get
+        //    {
+        //        foreach (JsonConfigElement json in JsonCollection)
+        //        {
+        //            if (json != null)
+        //                yield return json;
+        //        }
+        //    }
+        //}
+
+        public static JsonConfigElement JsonElement
+        {
+            get { return InfoConfig.JsonElement; }
+        }
+
+        public static IEnumerable<ModuleConfigElement> ModuleElements
         {
             get
             {
-                foreach (JsonConfigElement json in JsonCollection)
+                foreach (ModuleConfigElement mod in ModuleCollection)
                 {
-                    if (json != null)
-                        yield return json;
+                    if (mod != null)
+                        yield return mod;
                 }
             }
         }
