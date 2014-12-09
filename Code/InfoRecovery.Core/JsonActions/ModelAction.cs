@@ -5,7 +5,7 @@ using System.Text;
 
 namespace InfoRecovery.Core.JsonActions
 {
-    public class ModelAction : IJsonSerializable
+    public class ModelAction
     {
         public string Action { get; set; }
 
