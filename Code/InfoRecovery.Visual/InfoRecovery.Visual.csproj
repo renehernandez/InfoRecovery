@@ -38,7 +38,7 @@
       <HintPath>..\InfoRecovery.Core\bin\Debug\InfoRecovery.Core.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs.Wpf">
-      <HintPath>..\..\..\..\..\..\..\SOFT\Development\VS\Ookii.Dialogs\Ookii.Dialogs.Wpf.dll</HintPath>
+      <HintPath>\\AEGIS-PC\Proyecto\InfoRecovery\Code\InfoRecovery.Visual\bin\Debug\Ookii.Dialogs.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -55,7 +55,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Xceed.Wpf.Toolkit">
-      <HintPath>..\..\..\..\..\..\..\SOFT\Development\VS\Extended WPF Toolkit Binaries\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>\\AEGIS-PC\Proyecto\InfoRecovery\Code\InfoRecovery.Visual\bin\Debug\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

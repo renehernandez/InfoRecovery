@@ -19,19 +19,20 @@ namespace InfoRecovery.Index
                 string jsonPath = args[0];
                 var indexAction = JsonHelper.ReadJson<IndexAction>(jsonPath);
                 var indexResultAction = new IndexResultAction { Success = "false" };
-
+        
                 switch (indexAction.Action)
                 {
                     case "create":
                         foreach (var md in indexAction.Data)
-                            data.Add(md.Key, "TODO:Vlue");
-                        indexResultAction.Success = "true";
+                            data.Add(md.Key, JsonHelper.ConvertFrom<ValueData>(md.Value));
                         break;
                     case "insert":
                         break;
                     case "get":
                         var sValue =  data.Get(indexAction.Key);
                         indexResultAction.Success = "true";
+                        indexResultAction.Value = JsonHelper.ConvertTo<ModelData>(sValue);
+                        JsonHelper.WriteJson<IndexResultAction>(indexResultAction, jsonPath);
                         break;
                     case "update":
                         break;
@@ -39,7 +40,7 @@ namespace InfoRecovery.Index
                         break;
 
                 }
-                JsonHelper.WriteJson<IndexResultAction>(indexResultAction, jsonPath);
+                
             }
           
         }
