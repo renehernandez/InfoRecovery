@@ -39,5 +39,15 @@ namespace InfoRecovery.Core
             return result;
         }
 
+        public static string ConvertFrom<T>(T obj)
+        {
+            return JsonConvert.SerializeObject(obj, new JsonSerializerSettings() {ContractResolver = new LowerCaseContractResolver(), NullValueHandling = NullValueHandling.Ignore});
+        }
+
+        public static T ConvertTo<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings() { ContractResolver = new LowerCaseContractResolver(), NullValueHandling = NullValueHandling.Ignore });
+        }
+
     }
 }
