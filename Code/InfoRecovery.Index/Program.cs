@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using InfoRecovery.Core;
+using InfoRecovery.Core.JsonActions;
 
 namespace InfoRecovery.Index
 {
@@ -9,35 +11,36 @@ namespace InfoRecovery.Index
     {
         static void Main(string[] args)
         {
-            var data = new DataManager();
-            var value1 = @"{
-                                idf: 5.4,
-                                    {
-                                        tf: 5.1,
-                                        document: 'path\to\document.pdf'
-                                    },
-                                    {
-                                        tf: 5.1,
-                                        document: 'path\to\document.pdf'
-                                    }
-                           }";
-            var value2 = @"{
-                                    {
-                                        document: 'path\to\document.pdf'
-                                    },
-                                    {
-                                        document: 'path\to\document.pdf'
-                                    }
-                           }";
 
-            data.Delete("key1");
-            data.Add("key1", value1);
-            data.Add("key2", value2);
-            data.Add("document.pdf", "get");
-            Console.WriteLine(data.Get("key1"));
-            data.Delete("key1");
-            data.Add("key1", "pepe");
-            Console.WriteLine(data.Get("key1"));
+            if (args.Length > 0)
+            {
+                var data = new DataManager();
+
+                string jsonPath = args[0];
+                var indexAction = JsonHelper.ReadJson<IndexAction>(jsonPath);
+                var indexResultAction = new IndexResultAction { Success = "false" };
+
+                switch (indexAction.Action)
+                {
+                    case "create":
+                        foreach (var md in indexAction.Data)
+                            data.Add(md.Key, "TODO:Vlue");
+                        indexResultAction.Success = "true";
+                        break;
+                    case "insert":
+                        break;
+                    case "get":
+                        var sValue =  data.Get(indexAction.Key);
+                        indexResultAction.Success = "true";
+                        break;
+                    case "update":
+                        break;
+                    case "delete":
+                        break;
+
+                }
+                JsonHelper.WriteJson<IndexResultAction>(indexResultAction, jsonPath);
+            }
           
         }
 
