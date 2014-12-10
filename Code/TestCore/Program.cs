@@ -20,7 +20,7 @@ namespace TestCore
             Test t = new Test() { Action = "Test", Age = 1 };
             JsonHelper.WriteJson(t, "D:\\json.txt");
             Test t1 = JsonHelper.ReadJson<Test>("D:\\json.txt");
-            Console.WriteLine(t1);
+            Console.WriteLine(JsonHelper.ConvertFrom(t1));
         }
 
     }
